@@ -1,0 +1,77 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+videoanalyzervenv/
+env/
+ENV/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data files (too large for git)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/sample/.gitkeep
+
+# Model files (too large)
+models/*
+!models/.gitkeep
+*.h5
+*.pkl
+*.pth
+*.pt
+*.bin
+*.onnx
+*.pb
+
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+
+#output
+outputs/*
+!outputs/.gitkeep
+results/*
+!results/.gitkeep
+temp/*
+!temp/.gitkeep
+
+# Video and media files
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.flv
+*.wmv
+*.webm
+*.wav
+*.mp3
+
+# Logs
+*.log
+logs/
+
+#Testing
+.pytest_cache/
+.coverage
+htmlcov/
