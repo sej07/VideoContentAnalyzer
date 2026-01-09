@@ -1,20 +1,21 @@
-from src.video_processor import get_video_info, extract_frames
-from src.object_detection import ObjectDetector, visualize_detections
+from src.video_processor import extract_frames
+from src.object_detection import visualize_detections 
+from src.object_tracking import ObjectTracker 
 
 video_path = "data/sample/test_video.mp4"
 output_dir = "outputs/test_frames"
 
-print("Extracting frames")
-frame_paths = extract_frames(video_path, output_dir, sample_rate=1.0)
+print("Extracting frames...")
+frame_paths = extract_frames(video_path, output_dir, sample_rate=2.0) # Increased rate for better tracking
 print(f"✓ {len(frame_paths)} frames ready\n")
-detector = ObjectDetector(model_name='yolov8n.pt', confidence_threshold=0.5)
 
-print("Running tracking")
-tracking_results = detector.track_objects_in_frames(frame_paths)
-print()
+# Initialize the TRACKER, not the Detector
+tracker = ObjectTracker(model_name='yolov8n.pt', confidence_threshold=0.5)
 
-print("Tracking Analysis:")
+print("Running tracking...")
+tracking_results = tracker.track_video_frames(frame_paths)
 
+print("\nTracking Analysis:")
 # Collect all unique track IDs
 all_track_ids = set()
 for detections in tracking_results.values():
@@ -23,10 +24,11 @@ for detections in tracking_results.values():
             all_track_ids.add(det['track_id'])
 
 print(f"Total unique objects tracked: {len(all_track_ids)}")
-print(f"Track IDs: {sorted(all_track_ids)}")
-print()
-frames_to_viz = [frame_paths[0], frame_paths[5], frame_paths[-1]]
+print(f"Track IDs: {sorted(list(all_track_ids))}")
+
+# Visualization (First, Middle, Last frame)
+frames_to_viz = [frame_paths[0], frame_paths[len(frame_paths)//2], frame_paths[-1]]
 for i, frame in enumerate(frames_to_viz):
     output = f"outputs/tracking_frame_{i}.jpg"
-    visualize_detections(frame, tracking_results[frame], output, show_track_id=True)
-    print(f"Visualized: {output}")
+    if frame in tracking_results:
+        visualize_detections(frame, tracking_results[frame], output, show_track_id=True)
