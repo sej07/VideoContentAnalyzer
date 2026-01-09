@@ -13,7 +13,7 @@ print(f"✓ {len(frame_paths)} frames ready\n")
 tracker = ObjectTracker(model_name='yolov8n.pt', confidence_threshold=0.5)
 
 print("Running tracking...")
-tracking_results = tracker.track_video_frames(frame_paths)
+tracking_results = tracker.track_in_frames(frame_paths)
 
 print("\nTracking Analysis:")
 # Collect all unique track IDs

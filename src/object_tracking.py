@@ -6,7 +6,7 @@ class ObjectTracker:
         self.model = YOLO(model_name)
         self.confidence_threshold = confidence_threshold
 
-    def track_video_frames(self, frame_paths: List[str]) -> Dict[str, List[Dict]]:
+    def track_in_frames(self, frame_paths: List[str]) -> Dict[str, List[Dict]]:
         results = {}
         print(f"Starting tracking on {len(frame_paths)} frames...")
         for i, frame_path in enumerate(frame_paths):

@@ -30,7 +30,7 @@ class ObjectDetector:
             detections = self.detect_objects(frame_path)
             results[frame_path] = detections
             if (i + 1) % 10 == 0:  # Print every 10 frames to reduce clutter
-                print(f"Processed {i+1}/{len(frame_paths)} frames")
+                print(f"Frame {i+1}/{len(frame_paths)}: {len(detections)} objects detected")
         return results
     
 
