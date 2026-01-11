@@ -40,31 +40,10 @@ os.remove(audio_path)  # Cleanup
 print(f"Transcript: {len(transcript['text'])} characters")
 print()
 print("Analyzing scenes with CLIP")
-analyzer  = SceneAnalyzer(model_name="ViT-B/32")
-custom_prompts = [
-    "a person giving a TED talk presentation on stage",
-    "a speaker presenting at a conference",
-    "someone giving a lecture or educational talk",
-    "a person speaking in front of presentation slides",
-    "a professional speaker on stage",
-    "someone presenting research or ideas to an audience",
-    "people in athletic wear running",  
-    "a public speaking event with a single speaker"
-]
-key_frame = frame_paths[len(frame_paths)//2]
-scene_desc = analyzer.describe_image(key_frame, prompt_options=custom_prompts)
-best_desc = list(scene_desc.keys())[0]
-scenes = [{
-    'scene_number': 1,
-    'start_frame': 0,
-    'end_frame': len(frame_paths)-1,
-    'key_frame_index': len(frame_paths)//2,
-    'key_frame_path': key_frame,
-    'description': best_desc,
-    'confidence': scene_desc[best_desc]
-}]
+analyzer = SceneAnalyzer(model_name="ViT-B/32")
+scenes = analyzer.analyze_scenes(frame_paths, scene_threshold=30.0)
 integrator.add_scenes(scenes)
-print(f"Scene description: {best_desc} ({scene_desc[best_desc]:.1%})")
+print(f"Analyzed {len(scenes)} scene(s)")
 print()
 print("Generating summary")
 integrator.generate_summary()

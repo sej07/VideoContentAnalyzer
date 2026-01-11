@@ -32,16 +32,47 @@ class SceneAnalyzer:
     def describe_image(self, image_path:str, prompt_options: List[str] = None)-> Dict[str, float]:
         if prompt_options is None: 
             prompt_options = [
-            "people exercising outdoors in a park",
-                "people jogging on a running track",
-                "a crowded city street with traffic",
-                "people walking in an urban area",
-                "a peaceful park with trees",
-                "people engaged in outdoor activities",
-                "a busy intersection with vehicles",
-                "people in athletic wear running",
-                "an outdoor recreational area",
-                "a suburban neighborhood scene"
+            # People activities
+            "people talking indoors",
+            "people talking outdoors", 
+            "people working in an office",
+            "people exercising or playing sports",
+            "people eating or dining",
+            "people performing or presenting on stage",
+            "people shopping or in a store",
+            "a person speaking or giving a presentation",
+            
+            # Settings
+            "an indoor scene with people",
+            "an outdoor scene with people",
+            "a crowded public space",
+            "a quiet indoor environment",
+            "an urban street scene",
+            "a natural outdoor environment",
+            "a professional workplace setting",
+            "a recreational or leisure activity",
+            
+            # Events
+            "a social gathering or party",
+            "a business meeting or conference",
+            "a sports event or game",
+            "a performance or concert",
+            "a classroom or educational setting",
+            "a transportation scene with vehicles",
+            
+            # Nature & Objects
+            "a landscape or nature scene",
+            "animals in their natural habitat",
+            "vehicles on a road or street",
+            "architecture or buildings",
+            "food or cooking",
+            "technology or electronics",
+            
+            # Activities
+            "someone creating or making something",
+            "people traveling or commuting",
+            "a celebration or special event",
+            "daily life activities"
         ]
         image = Image.open(image_path)
         image_input = self.preprocess(image).unsqueeze(0).to(self.device)
