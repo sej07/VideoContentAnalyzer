@@ -9,7 +9,7 @@ from pathlib import Path
 class SceneAnalyzer:
     def __init__(self, model_name:str = 'ViT-B/32'):
         print(f"Loading CLIP model: {model_name}")
-        self.device = 'mps' if torch.backends.mps.is_available else 'cpu'
+        self.device = "cpu"
         self.model, self.preprocess = clip.load(model_name, device = self.device)
         print(f"CLIP model loaded on {self.device}")
 
