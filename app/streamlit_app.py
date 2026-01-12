@@ -3,6 +3,11 @@ import requests
 import time
 import json
 from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from src.timeline_generator import create_interactive_timeline
+
 API_URL = "http://localhost:8000"
 st.set_page_config(
     page_title="Video Content Analyzer",
@@ -158,3 +163,22 @@ with tab2:
             st.error(f"Error fetching results: {str(e)}")
     else:
         st.info("Upload and analyze a video in the first tab to see results here!")
+
+result_tab1, result_tab2, result_tab3, result_tab4, result_tab5 = st.tabs([
+    "Timeline", "Scenes", "Objects", "Transcript", "Download"
+])
+
+with result_tab1:
+    st.subheader("Interactive Timeline")
+    try:
+        fig = create_interactive_timeline(results)
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown("""
+        **How to use:**
+        - Hover over bars to see object details
+        - Scene colors show different scenes
+        - Purple bars represent speech segments
+        - Red stars mark key moments
+        """)
+    except Exception as e:
+        st.error(f"Error creating timeline: {str(e)}")
