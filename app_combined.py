@@ -1,17 +1,51 @@
 import subprocess
 import time
-import threading
+import os
+import signal
 import sys
 
 def run_api():
-    subprocess.run([sys.executable, "-m", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"])
+    print("Starting FastAPI server")
+    api_process = subprocess.Popen(
+        [sys.executable, "-m", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    return api_process
 
 def run_streamlit():
-    time.sleep(3)  
-    subprocess.run([sys.executable, "-m", "streamlit", "run", "app/streamlit_app.py", "--server.port=7860", "--server.address=0.0.0.0"])
+    print("Starting Streamlit app")
+    streamlit_process = subprocess.Popen(
+        [
+            sys.executable, "-m", "streamlit", "run",
+            "app/streamlit_app.py",
+            "--server.port=7860",
+            "--server.address=0.0.0.0",
+            "--server.headless=true",
+            "--browser.serverAddress=0.0.0.0",
+            "--browser.gatherUsageStats=false"
+        ]
+    )
+    return streamlit_process
+
+def signal_handler(sig, frame):
+    print("\nShutting down")
+    sys.exit(0)
 
 if __name__ == "__main__":
-    api_thread = threading.Thread(target=run_api, daemon=True)
-    api_thread.start()
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+    api_proc = run_api()
+    time.sleep(5)
+    streamlit_proc = run_streamlit()
     
-    run_streamlit()
+    print("Application is running!")
+    print("FastAPI: http://localhost:8000")
+    print("Streamlit: http://localhost:7860")
+    try:
+        streamlit_proc.wait()
+    except KeyboardInterrupt:
+        print("\nShutting down...")
+    finally:
+        api_proc.terminate()
+        streamlit_proc.terminate()
