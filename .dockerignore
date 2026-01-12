@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environments
+venv/
+videoanalyzervenv/
+env/
+ENV/
+
+# Data and outputs
+data/raw/*
+data/processed/*
+data/uploads/*
+outputs/*
+models/*
+*.mp4
+*.avi
+*.mov
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files
+test_*.py
+notebooks/
